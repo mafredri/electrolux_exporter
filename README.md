@@ -16,6 +16,7 @@ For now, only air purifiers are supported.
 | AX9 | AEG | Untested, same as Electrolux Pure A9 |
 | AX7 | AEG | Untested, same as Electrolux Well A7 |
 | AX5 | AEG | Untested, same as Electrolux Well A5 |
+| AX3 | AEG | Untested, same as Electrolux Flow A3 |
 | Pure 5000 | AEG | Untested, same as Electrolux Pure 500 |
 
 
@@ -104,6 +105,6 @@ scrape_configs:
 | `electrolux_appliance_pm10` | PM10 in μg/m^3 |
 | `electrolux_appliance_co2` | CO2 |
 | `electrolux_appliance_tvoc_ppb` | Total volatile organic compounds in ppb |
-| `electrolux_appliance_voc_density` | Volatile organic compound density in μg/m^3) |
+| `electrolux_appliance_voc_density` | Volatile organic compound density in μg/m^3 |
 
-TODO(mafredri): Improve metrics format, perhaps add `electrolux_appliance_info`/`electrolux_appliance_status` metrics and reduce labels in other metrics.
+TODO(mafredri): Improve metrics format, perhaps add `electrolux_appliance_info` / `electrolux_appliance_status` metrics and reduce labels in other metrics.

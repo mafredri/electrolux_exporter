@@ -2,16 +2,13 @@ package collector
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"math"
-	"sort"
 	"sync"
 	"time"
 
 	"github.com/mafredri/electrolux-ocp/ocpapi"
 	"github.com/prometheus/client_golang/prometheus"
-	"golang.org/x/exp/maps"
 )
 
 var labels = []string{
@@ -248,14 +245,6 @@ func (c *Collector) Collect(ch chan<- prometheus.Metric) {
 		maybeCollectIntMetric(c.airPurifierRSSI, reported.RSSI)
 		// collectMetric(c.airPurifierRSSI, signalStrengthToRSSI(reported.SignalStrength))
 
-		if _, ok := signalStrengthMap[reported.SignalStrength]; !ok {
-			signalStrengthMap[reported.SignalStrength] = make(map[int]int)
-		}
-		if reported.RSSI != nil {
-			rssi := *reported.RSSI
-			signalStrengthMap[reported.SignalStrength][rssi]++
-		}
-
 		if fanspeed, fanspeedMax, ok := fanspeed(appliance.ApplianceData.ModelName, reported.Fanspeed); ok {
 			collectMetric(c.airPurifierFanspeed, round(fanspeed, 2))
 			collectMetric(c.airPurifierFanspeedMax, fanspeedMax)
@@ -307,17 +296,6 @@ func (c *Collector) Collect(ch chan<- prometheus.Metric) {
 	}
 
 	log.Println("Metrics collected.")
-
-	log.Println("Signal strength ranges seen:")
-	for signalStrength, range_ := range signalStrengthMap {
-		keys := maps.Keys(range_)
-		sort.Ints(keys)
-		fmt.Printf("  - %s: ", signalStrength)
-		for _, key := range keys {
-			fmt.Printf("%d: %d, ", key, range_[key])
-		}
-		fmt.Println()
-	}
 }
 
 func (c *Collector) Close() error {
